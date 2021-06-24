@@ -1,0 +1,293 @@
+{% load static %}
+{% static "images" as baseUrl %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Movie Portal</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Movie Portal template project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/contact.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/contact_responsive.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/elements.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/elements_responsive.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
+</head>
+<body>
+
+<div class="super_container">
+
+	<!-- Header -->
+
+	<header class="header">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="header_content d-flex flex-row align-items-center justify-content-start">
+						<div class="header_content_inner d-flex flex-row align-items-end justify-content-start">
+							<div class="logo"><a href="/">Movie Portal</a></div>
+							<nav class="main_nav">
+								<ul class="d-flex flex-row align-items-start justify-content-start">
+									<li class="active"><a href="/">Home</a></li>
+
+									{% if user.is_authenticated %}
+									<li>Hello, {{user.first_name}}</li>
+									<li><a href="/accounts/logout">Logout</a></li>
+									{% else %}
+									<li><a href="/accounts/register">Register</a></li>
+									<li><a href="/accounts/login">Login</a></li>
+									{% endif %}
+								</ul>
+							</nav>
+							<div class="header_phone ml-auto"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Menu -->
+
+	<div class="menu">
+		<div class="menu_header d-flex flex-row align-items-center justify-content-start">
+			<div class="menu_logo"><a href="index.html">Travello</a></div>
+			<div class="menu_close_container ml-auto"><div class="menu_close"><div></div><div></div></div></div>
+		</div>
+		<div class="menu_content">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Home -->
+
+	<div class="home">
+
+		<!-- Home Slider -->
+		<div class="home_slider_container">
+			<div class="owl-carousel owl-theme home_slider">
+
+				<!-- Slide -->
+				<div class="owl-item">
+					<div class="background_image" style="background-image:url(/static/images/home_slider2.jpg)"></div>
+					<div class="home_slider_content_container">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<div class="home_slider_content">
+										<iframe width="853" height="480" 
+										src="{{movie.link}}" 
+										title="YouTube video player" 
+										frameborder="0" 
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										<div class="home_title"><h2></h2></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="home_page_nav">
+				<ul class="d-flex flex-column align-items-end justify-content-end">
+					<li><a href="#" data-scroll-to="#about">Movie<span>01</span></a></li>
+					<li><a href="#" data-scroll-to="#contact">Comments<span>02</span></a></li>
+					<li><a href="#" data-scroll-to="#why">Related<span>03</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Movies -->
+
+	<div class="about" id="about">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title"><h2>{{movie.title}}</h2></div>
+					<div class="section_title"><h2></h2></div>
+				</div>
+			</div>
+			<div class="row about_row">
+				<div class="col-lg-6">
+					<div class="about_content">
+						<div class="about_text">
+							<p>Title: {{movie.title}}</p>
+							<p>Director : {{movie.director}} </p>
+							<p>Genre: {{movie.Category}}</p>
+							<p>Year: {{movie.year}}</p>
+							<p>Language: {{movie.Language}}</p>
+							<p>Actors: 
+							{% for actor in movie.persons.all %}
+                				{{ actor }},   
+            				{% endfor %}
+							</p>
+							<p>Plot: {{movie.desc}}</p>
+							<p></p>
+						</div>
+						<div class="buttons">
+							<div class="elements_title">Rating: {{movie.MeanRatings}}%</div>
+							<div class="buttons_container d-flex flex-row align-items-start justify-content-start">
+								<form action="" method="POST">
+									{% csrf_token %}
+									<button type="submit" class="button button_3" name="like"><a>Like</a></button>
+								</form>
+								<form action="" method="POST">
+									{% csrf_token %}
+									<button type="submit" style="margin-left: 10px" class="button button_3" name="dislike"><a>Dislike</a></button>
+								</form>
+							</div>
+                            {% if messages %}
+                                <ul class="messages">
+                                    {% for message in messages %}
+                                        {%if "vote" in message.tags %}
+                                            <li{% if message.tags %} class="{{ message.tags }}" style="color: black" {% endif %}>{{ message }}</li>
+                                        {%endif%}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="about_image">
+						<img src="{{movie.img.url}}" alt="" style="float:right"
+							width="425px"
+							height="600px">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Comment -->
+
+	<div class="contact" id="contact">
+		<div class="container">
+			<div class="row">
+
+				<!-- Comments -->
+				<div class="col-lg-6">
+					<div class="contact_content">
+						<div class="contact_title">Comments ({{movie.NumberComments}})</div>
+						<div class="contact_text">
+							{% if not movie.comments.all %}
+							<p>This movie has no comments yet.</p>
+							{% endif %}
+						</div>
+						<div class="contact_list">
+							{% for comm in movie.comments.all %}
+							<ul>
+								<li>
+									<div>{{comm.Name}} | {{comm.Date}}</div>
+									<div>{{comm.Comment}}</div>
+									
+								</li>
+							</ul>
+							{%endfor%}
+						</div>
+					</div>
+				</div>
+
+				<!-- Comment Form -->
+				<div class="col-lg-6">
+					<div class="contact_form_container">
+                        {% if user.is_authenticated %}
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div style="margin-bottom: 18px"><input type="text" name="user" class="contact_input contact_input_name inpt" value="{{user.first_name}} {{user.last_name}}" required="required" readonly="readonly"><div class="input_border"></div></div>
+                                <div><textarea class="contact_textarea contact_input inpt" name="comment" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
+                                <button type="submit" class="contact_button" name="send">send</button>
+                            </form>
+                        {% else %}
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div style="margin-bottom: 18px"><input type="text" name="user" class="contact_input contact_input_name inpt" placeholder="Your Name" required="required"><div class="input_border"></div></div>
+                                <div><textarea class="contact_textarea contact_input inpt" name="comment" placeholder="Comment" required="required"></textarea><div class="input_border" style="bottom:3px"></div></div>
+                                <button type="submit" class="contact_button" name="send">send</button>
+                            </form>
+                            {% if messages %}
+                                <ul class="messages">
+                                    {% for message in messages %}
+                                        {%if "comment" in message.tags %}
+                                            <li{% if message.tags %} class="{{ message.tags }}" style="color: black" {% endif %}>{{ message }}</li>
+                                        {%endif%}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Why Choose Us -->
+
+	<div class="why" id="why">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{% static 'images/pop_corn.jpg' %}" data-speed="0.8"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title"><h2>Related movies</h2></div>
+				</div>
+			</div>
+			<div class="row why_row">
+				
+				<!-- Why item -->
+				{% for rec in movies %}
+				{% if rec != movie %}
+				<div class="col-lg-4 why_col">
+					<div class="why_item">
+						<div class="why_image">
+							<a href="/movie/{{rec.title}}/{{rec.id}}">
+							<img src="{{rec.img.url}}" alt="/movie/{{movie.title}}/{{movie.id}}"
+							width="400px"
+							height="500px">
+						</a>
+						</div>
+						<div class="why_content text-center">
+							<div class="why_title">{{rec.title}}</div>
+							<div class="why_text">
+								<p>{{rec.year}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+		
+	</footer>
+</div>
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+</body>
+</html>

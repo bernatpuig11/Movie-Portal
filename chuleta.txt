@@ -1,0 +1,36 @@
+TODO:
+- arreglar links
+- comentar y dar puntuación solo si eres usuario
+
+
+- meter como cabrones peliculas
+
+------------------------------------------------------------
+DONE:
+- Search arreglar
+- Ratings
+- Comments
+- Video en cada pelicula
+- ajustar tamaño imagenes siempre el mismo
+- Search: mirar title
+- Search: genero poner desplegable
+- *menu por categorias*
+- meter paginacion
+- *recomendar peliculas*
+
+
+
+
+
+
+
+
+
+
+
+
+MVC = Model View Controller
+DLT = Django
+ORM = Object-Relational Mapper
+
+project_web el virtenv
